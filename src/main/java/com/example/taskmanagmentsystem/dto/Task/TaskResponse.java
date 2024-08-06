@@ -10,7 +10,6 @@ import java.util.List;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @RequiredArgsConstructor
 @Builder
 public class TaskResponse {
@@ -22,4 +21,17 @@ public class TaskResponse {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private List<CommentResponse> comments;
+
+    public TaskResponse(Long id, String title, String description, Status status,
+                        Priority priority, LocalDateTime createdAt, LocalDateTime updatedAt,
+                        List<CommentResponse> comments) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.status = status;
+        this.priority = priority;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
+        this.comments = comments;
+    }
 }

@@ -8,6 +8,7 @@ import com.example.taskmanagmentsystem.exception.AlreadyExistsException;
 import com.example.taskmanagmentsystem.model.UserInfo;
 import com.example.taskmanagmentsystem.repository.UserInfoRepository;
 import com.example.taskmanagmentsystem.service.AuthenticationService;
+import com.example.taskmanagmentsystem.util.enums.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,9 +28,10 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         }
 
         UserInfo userAccount = UserInfo.builder()
+                .userInfoUserName(request.getUsername())
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
-                .role(null)
+                .role(Role.USER)
                 .build();
 
         userInfoRepository.save(userAccount);

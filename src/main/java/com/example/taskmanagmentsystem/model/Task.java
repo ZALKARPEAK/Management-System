@@ -1,5 +1,6 @@
 package com.example.taskmanagmentsystem.model;
 
+import com.example.taskmanagmentsystem.model.additional.TaskUser;
 import com.example.taskmanagmentsystem.util.enums.Priority;
 import com.example.taskmanagmentsystem.util.enums.Status;
 import jakarta.persistence.*;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "tasks")
@@ -38,10 +41,6 @@ public class Task {
     @JoinColumn(name = "creator_id")
     private UserInfo creator;
 
-    @ManyToOne
-    @JoinColumn(name = "assignee_id")
-    private UserInfo assignee;
-
     @Column(nullable = false)
     private LocalDateTime createdAt;
 
@@ -50,4 +49,8 @@ public class Task {
 
     @OneToMany(mappedBy = "task", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;
+
+    @ElementCollection
+    @CollectionTable(name = "task_users", joinColumns = @JoinColumn(name = "task_id"))
+    private Set<TaskUser> users = new HashSet<>();
 }
