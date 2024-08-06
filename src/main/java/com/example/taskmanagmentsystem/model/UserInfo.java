@@ -29,16 +29,13 @@ public class UserInfo implements UserDetails {
     private String password;
 
     @Column(nullable = false)
-    private String username;
+    private String userInfoUserName;
 
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "creator", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "creator")
     private List<Task> createdTasks;
-
-    @OneToMany(mappedBy = "assignee", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Task> assignedTasks;
 
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Comment> comments;

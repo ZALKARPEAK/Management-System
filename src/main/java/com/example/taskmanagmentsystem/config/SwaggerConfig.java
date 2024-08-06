@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Collections;
+
 @Configuration
 public class SwaggerConfig {
     private static final String API_KEY = "Bearer Token ";
@@ -17,7 +18,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes(API_KEY, apiKeySecuritySchema()))
-                .info(new Info().title("Health Check"))
+                .info(new Info().title("Management System"))
                 .security(Collections.singletonList(new SecurityRequirement().addList(API_KEY)));
     }
     public SecurityScheme apiKeySecuritySchema() {
