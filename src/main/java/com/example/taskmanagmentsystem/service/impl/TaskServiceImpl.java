@@ -5,6 +5,7 @@ import com.example.taskmanagmentsystem.dto.SimpleResponse;
 import com.example.taskmanagmentsystem.dto.Task.TaskRequest;
 import com.example.taskmanagmentsystem.dto.Task.TaskResponse;
 import com.example.taskmanagmentsystem.dto.Task.TaskResponsePagination;
+import com.example.taskmanagmentsystem.exception.AlreadyExistsException;
 import com.example.taskmanagmentsystem.exception.ForbiddenException;
 import com.example.taskmanagmentsystem.exception.NotFoundException;
 import com.example.taskmanagmentsystem.model.Task;
@@ -127,6 +128,11 @@ public class TaskServiceImpl implements TaskService {
 
         UserInfo member = userInfoRepository.getUserAccountByEmail(emailMember).orElseThrow(() ->
                 new NotFoundException("Пользователь не найден"));
+
+        if (task.getUsers().stream()
+                .anyMatch(taskUser -> taskUser.getUserId().equals(member.getId()))) {
+            throw new AlreadyExistsException("Этот пользователь уже назначен на эту задачу");
+        }
 
         TaskUser taskUser = new TaskUser(member.getId(), member.getUserInfoUserName());
 
