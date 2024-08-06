@@ -3,6 +3,7 @@ package com.example.taskmanagmentsystem.api.advice;
 import com.example.taskmanagmentsystem.api.response.CustomResponse;
 import com.example.taskmanagmentsystem.exception.AlreadyExistsException;
 import com.example.taskmanagmentsystem.exception.BadCredentialsException;
+import com.example.taskmanagmentsystem.exception.ForbiddenException;
 import com.example.taskmanagmentsystem.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.TypeMismatchException;
@@ -62,7 +63,8 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
     @ExceptionHandler({
             NotFoundException.class,
             AlreadyExistsException.class,
-            BadCredentialsException.class})
+            BadCredentialsException.class,
+            ForbiddenException.class})
     public ResponseEntity<CustomResponse<?>> handleException(Exception ex) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
         String message = "something went wrong :(";
@@ -74,6 +76,11 @@ public class CustomControllerAdvice extends ResponseEntityExceptionHandler {
 
         if (ex instanceof AlreadyExistsException) {
             status = HttpStatus.CONFLICT;
+            message = ex.getMessage();
+        }
+
+        if (ex instanceof ForbiddenException) {
+            status = HttpStatus.FORBIDDEN;
             message = ex.getMessage();
         }
 
